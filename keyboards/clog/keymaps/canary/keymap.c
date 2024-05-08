@@ -20,7 +20,6 @@ enum layers {
 enum custom_keycodes {
     LY_LOCK = SAFE_RANGE, // Layer lock
     SELLINE,              // Select the current line
-    UPDIR,                // ../
     BDL_CLN,              // ::
     STD_CLN,              // std::
     DOCSTR,               // Python: """docstring"""
@@ -60,6 +59,7 @@ enum custom_keycodes {
 ///////////////////////////////////////////////////////////////////////////////
 
 // clang-format off
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [BASE] = LAYOUT_split_3x5_2(  
@@ -131,7 +131,7 @@ combo_t key_combos[] = {
 custom_shift_key_t const custom_shift_keys[] = {
     {KC_SCLN, KC_AT},   // ; -> @
     {KC_COMM, KC_QUES}, // , -> ?
-    {PNKY_DOT, UPDIR},  // . -> ../
+    {PNKY_DOT, KC_NO},  // . -> ../ (handled in process_record_user)
     {KC_EQL, KC_EQL},   // Don't shift =
     {KC_SLSH, KC_SLSH}, // Don't shift /
 };
@@ -186,6 +186,18 @@ bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record, ui
     return achordion_opposite_hands(tap_hold_record, other_record);
 }
 
+bool achordion_eager_mod(uint8_t mod) {
+    switch (mod) {
+        case MOD_LSFT:
+        case MOD_LCTL:
+        case MOD_LALT:
+            return true; // Eagerly apply left mods for mousing
+
+        default:
+            return false;
+    }
+}
+
 uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
     // Disable achordion for the thumb keys.
     switch (tap_hold_keycode) {
@@ -209,15 +221,20 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     if (!process_layer_lock(keycode, record, LY_LOCK)) {
         return false;
     }
+
+    const uint8_t mods       = get_mods();
+    const uint8_t all_mods   = mods | get_weak_mods() | get_oneshot_mods();
+    const uint8_t shift_mods = all_mods & MOD_MASK_SHIFT;
+
     if (!process_custom_shift_keys(keycode, record)) {
+        if (keycode == PNKY_DOT && record->event.pressed && shift_mods) {
+            SEND_STRING_DELAY("../", TAP_CODE_DELAY);
+        }
         return false;
     }
 
     if (record->event.pressed) {
         switch (keycode) {
-            case UPDIR:
-                SEND_STRING_DELAY("../", TAP_CODE_DELAY);
-                return false;
             case STD_CLN:
                 SEND_STRING_DELAY("std::", TAP_CODE_DELAY);
                 return false;
