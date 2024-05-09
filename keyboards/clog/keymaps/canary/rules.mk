@@ -17,6 +17,7 @@ COMBO_ENABLE = yes
 CAPS_WORD_ENABLE = yes
 EXTRAKEY_ENABLE = yes
 LTO_ENABLE = yes
+REPEAT_KEY_ENABLE = yes
 
 # Disable for space
 MOUSEKEY_ENABLE = no
