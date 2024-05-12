@@ -54,10 +54,10 @@ enum custom_keycodes {
 #define PNKY_DOT LGUI_T(KC_DOT)
 
 // Thumb keys (left/right and inner/outer)
-#define THMB_LO QK_AREP
-#define THMB_LI LT(NAV, KC_TAB)
-#define THMB_RI LT(NUM, KC_SPC)
-#define THMB_RO KC_BSPC
+#define THMB_LO LT(NAV, KC_TAB)
+#define THMB_LI KC_SPC
+#define THMB_RI QK_AREP
+#define THMB_RO LT(NUM, KC_BSPC)
 
 ///////////////////////////////////////////////////////////////////////////////
 // My Keymap
@@ -66,6 +66,7 @@ enum custom_keycodes {
 // clang-format off
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+   
     [BASE] = LAYOUT_split_3x5_2(  
         KC_W,     KC_L,    KC_Y,    KC_P,    KC_B,        KC_Z,    KC_F,    KC_O,    KC_U,  KC_QUOT,
         HOME_C, HOME_R,  HOME_S,  HOME_T,    KC_G,        KC_M,  HOME_N,  HOME_E,  HOME_I,   HOME_A,

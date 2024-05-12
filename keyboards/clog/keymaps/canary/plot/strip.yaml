@@ -1,0 +1,19 @@
+layout: {qmk_keyboard: ferris/sweep, qmk_layout: LAYOUT_split_3x5_2}
+layers:
+  BASE:
+  - [W, L, Y, P, B, Z, F, O, U, {t: '''', s: '"'}]
+  - [{h: SYM, t: C}, {h: Alt, t: R}, {h: Shift, t: S}, {h: Ctrl, t: T}, G, M, {h: Ctrl, t: N}, {h: Shift, t: E}, {h: Alt, t: I}, {h: SYM, t: A}]
+  - [{h: Gui, t: Q}, J, V, D, K, X, H, {t: ;, s: "@"}, {t: ",", s: "!"}, {h: Gui, t: '.', s: "?"}]
+  - [REP, {h: NAV, t: Tab}, {h: NUM, t: Space}, Back]
+  SYM:
+  - ['', <, '>', \, '~', 'std::', '::', '[', ']', '']
+  - [{type: held, t: "!"}, '-', +, '=', '#', '|', ':', (, ), {type: held, t: "%"}]
+  - ['', /, '*', ^, '`', '&', $, '{', '}', '']
+  - - {type: trans}
+    - _
+    - _
+    - {type: trans}
+combos:
+  - {p: [22, 27], k: "CapsWord", l: ["BASE"], a: bottom, offset: 0.6}
+  - {p: [22, 23], k: "Ent", l: ["BASE"]}
+  - {p: [26, 27], k: "Esc", l: ["BASE"]}
