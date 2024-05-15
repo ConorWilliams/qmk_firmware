@@ -10,6 +10,9 @@
 #define PERMISSIVE_HOLD
 #define QUICK_TAP_TERM_PER_KEY
 
+// Combos from the base layer.
+#define COMBO_ONLY_FROM_LAYER 0
+
 // Enable the streak feature
 #define ACHORDION_STREAK
 
