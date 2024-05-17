@@ -75,9 +75,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
     [SYM] = LAYOUT_split_3x5_2( 
-        XXXXXXX, KC_LABK, KC_RABK, KC_BSLS, KC_TILD,      USRNAME, STD_CLN, KC_LBRC, KC_RBRC, XXXXXXX,
+        XXXXXXX, KC_LABK, KC_RABK, KC_BSLS, USRNAME,      KC_PIPE, STD_CLN, KC_LBRC, KC_RBRC, XXXXXXX,
         KC_EXLM, KC_MINS, KC_PLUS,  KC_EQL, KC_HASH,      KC_AMPR, KC_COLN, KC_LPRN, KC_RPRN, KC_PERC,
-        XXXXXXX, KC_SLSH, KC_ASTR, KC_CIRC, KC_GRV,       KC_PIPE, KC_DLR, KC_LCBR, KC_RCBR, XXXXXXX,
+        XXXXXXX, KC_SLSH, KC_ASTR, KC_CIRC, KC_GRV,       KC_TILD, KC_DLR, KC_LCBR, KC_RCBR, XXXXXXX,
         
                                    _______, KC_UNDS,      KC_UNDS, _______
     ), 
@@ -274,6 +274,8 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
                 break;
             case KC_GRV: // ` -> ``<cursor>``` (for Markdown code)
                 return M_MKGRVS;
+            case KC_TILD:
+                return KC_SLSH; // ~ -> /
         }
     }
 
