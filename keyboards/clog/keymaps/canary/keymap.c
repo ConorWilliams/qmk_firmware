@@ -1,5 +1,3 @@
-
-
 #include QMK_KEYBOARD_H
 
 #include "features/achordion.h"
@@ -49,7 +47,7 @@ enum custom_keycodes {
 #define HOME_A LT(SYM, KC_A)
 
 // Pinky's lower gui's
-#define PNKY_Q LGUI_T(KC_Q)
+#define PNKY_W LGUI_T(KC_W)
 #define PNKY_DOT LGUI_T(KC_DOT)
 
 // Thumb keys (left/right and inner/outer)
@@ -67,9 +65,9 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    
     [BASE] = LAYOUT_split_3x5_2(  
-        KC_W,     KC_L,    KC_Y,    KC_P,    KC_B,        KC_Z,    KC_F,    KC_O,    KC_U,  KC_QUOT,
+        KC_Q,     KC_L,    KC_Y,    KC_P,    KC_B,        KC_Z,    KC_F,    KC_O,    KC_U,  KC_QUOT,
         HOME_C, HOME_R,  HOME_S,  HOME_T,    KC_G,        KC_M,  HOME_N,  HOME_E,  HOME_I,   HOME_A,
-        PNKY_Q,   KC_J,    KC_V,    KC_D,    KC_K,        KC_X,    KC_H, KC_SCLN, KC_COMM, PNKY_DOT,
+        PNKY_W,   KC_J,    KC_V,    KC_D,    KC_K,        KC_X,    KC_H, KC_SCLN, KC_COMM, PNKY_DOT,
 
                                  THMB_LO, THMB_LI,        THMB_RI, THMB_RO
     ),
@@ -77,9 +75,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [SYM] = LAYOUT_split_3x5_2( 
         XXXXXXX, KC_LABK, KC_RABK, KC_BSLS, USRNAME,      KC_PIPE, STD_CLN, KC_LBRC, KC_RBRC, XXXXXXX,
         KC_EXLM, KC_MINS, KC_PLUS,  KC_EQL, KC_HASH,      KC_AMPR, KC_COLN, KC_LPRN, KC_RPRN, KC_PERC,
-        XXXXXXX, KC_SLSH, KC_ASTR, KC_CIRC, KC_GRV,       KC_TILD, KC_DLR, KC_LCBR, KC_RCBR, XXXXXXX,
+        XXXXXXX, KC_SLSH, KC_ASTR, KC_CIRC, KC_GRV,       KC_TILD,  KC_DLR, KC_LCBR, KC_RCBR, XXXXXXX,
         
-                                   _______, KC_UNDS,      KC_UNDS, _______
+                                   _______, KC_UNDS,      _______, _______
     ), 
 
     //  NAV layers doubles as mousing layer (i.e. left hand shortcuts)
@@ -154,7 +152,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t* record) {
         // Ring and pinky fingers are slower.
         case HOME_C:
         case HOME_R:
-        case PNKY_Q:
+        case PNKY_W:
         case HOME_I:
         case HOME_A:
         case PNKY_DOT:
