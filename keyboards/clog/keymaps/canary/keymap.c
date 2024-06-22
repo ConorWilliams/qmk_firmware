@@ -45,7 +45,7 @@ enum custom_keycodes {
 #define HOME_I LT(SYM, KC_I)
 
 // Pinky's lower gui's
-#define PNKY_W LGUI_T(KC_X)
+#define PNKY_X LGUI_T(KC_X)
 #define PNKY_DOT LGUI_T(KC_DOT)
 
 // Thumb keys (left/right and inner/outer)
