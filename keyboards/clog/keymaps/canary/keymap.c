@@ -27,25 +27,25 @@ enum custom_keycodes {
 };
 
 /**
- *  w l y p b   z f o u '
- *  c r s t g   m n e i a
- *  q j v d k   x h ; , .
+ *  b l d c v   j f o u ,
+ *  n r t s g   y h a e i
+ *  x q m w z   k p ' ; .
  */
 
 // Left hand home row
-#define HOME_C LT(SYM, KC_C)
+#define HOME_N LT(SYM, KC_N)
 #define HOME_R LALT_T(KC_R)
-#define HOME_S LSFT_T(KC_S)
-#define HOME_T LCTL_T(KC_T)
+#define HOME_T LSFT_T(KC_T)
+#define HOME_S LCTL_T(KC_S)
 
 // Right hand home row
-#define HOME_N RCTL_T(KC_N)
-#define HOME_E RSFT_T(KC_E)
-#define HOME_I LALT_T(KC_I)
-#define HOME_A LT(SYM, KC_A)
+#define HOME_H RCTL_T(KC_H)
+#define HOME_A RSFT_T(KC_A)
+#define HOME_E LALT_T(KC_E)
+#define HOME_I LT(SYM, KC_I)
 
 // Pinky's lower gui's
-#define PNKY_W LGUI_T(KC_W)
+#define PNKY_W LGUI_T(KC_X)
 #define PNKY_DOT LGUI_T(KC_DOT)
 
 // Thumb keys (left/right and inner/outer)
@@ -58,12 +58,18 @@ enum custom_keycodes {
 
 // clang-format off
 
+/**
+ *  b l d c v   j f o u ,
+ *  n r t s g   y h a e i
+ *  x q m w z   k p ' ; .
+ */
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    
     [BASE] = LAYOUT_split_3x5_2(  
-        KC_Q,     KC_L,    KC_Y,    KC_P,    KC_B,        KC_Z,    KC_F,    KC_O,    KC_U,  KC_QUOT,
-        HOME_C, HOME_R,  HOME_S,  HOME_T,    KC_G,        KC_M,  HOME_N,  HOME_E,  HOME_I,   HOME_A,
-        PNKY_W,   KC_J,    KC_V,    KC_D,    KC_K,        KC_X,    KC_H, KC_SCLN, KC_COMM, PNKY_DOT,
+        KC_B,     KC_L,    KC_D,    KC_C,    KC_V,        KC_J,    KC_F,    KC_O,    KC_U,  KC_COMM,
+        HOME_N, HOME_R,  HOME_T,  HOME_S,    KC_G,        KC_Y,  HOME_H,  HOME_A,  HOME_E,   HOME_I,
+        PNKY_X,   KC_Q,    KC_M,    KC_W,    KC_Z,        KC_K,    KC_P, KC_QUOT, KC_SCLN, PNKY_DOT,
 
                                  TG(NAV), THMB_LI,        THMB_RI, MO(NUM)
     ),
@@ -102,14 +108,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ///////////////////////////////////////////////////////////////////////////////
 
 /**
- *  w l y p b   z f o u '
- *  c r s t g   m n e i a
- *  q j v d k   x h ; , .
+ *  b l d c v   j f o u ,
+ *  n r t s g   y h a e i
+ *  x q m w z   k p ' ; .
  */
 
 custom_shift_key_t const custom_shift_keys[] = {
     {KC_SCLN, KC_AT},    // ; -> @
-    {KC_COMM, KC_EXLM},  // , -> !
     {PNKY_DOT, KC_QUES}, // . -> ?
     {KC_EQL, KC_EQL},    // Don't shift =
     {KC_SLSH, KC_SLSH},  // Don't shift /
@@ -122,17 +127,18 @@ uint8_t NUM_CUSTOM_SHIFT_KEYS = sizeof(custom_shift_keys) / sizeof(custom_shift_
 ///////////////////////////////////////////////////////////////////////////////
 
 /**
- *  w l y p b   z f o u '
- *  c r s t g   m n e i a
- *  q j v d k   x h ; , .
+ *  b l d c v   j f o u ,
+ *  n r t s g   y h a e i
+ *  x q m w z   k p ' ; .
  */
 
-uint16_t const caps_combo[] PROGMEM = {KC_V, KC_SCLN, COMBO_END}; // Middle fingers
+uint16_t const caps_combo[] PROGMEM = {KC_M, KC_QUOT, COMBO_END}; // Middle fingers
 
-uint16_t const bck_combo[] PROGMEM = {KC_H, KC_SCLN, COMBO_END};    // RHS index + middle
-uint16_t const esc_combo[] PROGMEM = {KC_SCLN, KC_COMM, COMBO_END}; // RHS middle + ring
-uint16_t const ent_combo[] PROGMEM = {KC_V, KC_D, COMBO_END};       // LHS index + middle
-uint16_t const tab_combo[] PROGMEM = {KC_J, KC_V, COMBO_END};       // LHS ring + middle
+uint16_t const tab_combo[] PROGMEM = {KC_Q, KC_M, COMBO_END}; // LHS ring + middle
+uint16_t const ent_combo[] PROGMEM = {KC_M, KC_W, COMBO_END}; // LHS index + middle
+
+uint16_t const bck_combo[] PROGMEM = {KC_P, KC_QUOT, COMBO_END};    // RHS index + middle
+uint16_t const esc_combo[] PROGMEM = {KC_QUOT, KC_SCLN, COMBO_END}; // RHS middle + ring
 
 combo_t key_combos[] = {
     COMBO(caps_combo, CW_TOGG), //
@@ -149,11 +155,12 @@ combo_t key_combos[] = {
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t* record) {
     switch (keycode) {
         // Ring and pinky fingers are slower.
-        case HOME_C:
+        case HOME_N:
         case HOME_R:
-        case PNKY_W:
+        case PNKY_X:
+
+        case HOME_E:
         case HOME_I:
-        case HOME_A:
         case PNKY_DOT:
             return TAPPING_TERM + 15;
 
