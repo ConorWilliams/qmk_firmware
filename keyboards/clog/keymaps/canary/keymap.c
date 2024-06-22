@@ -108,11 +108,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
 custom_shift_key_t const custom_shift_keys[] = {
-    {KC_SCLN, KC_AT},    // ; -> @
-    {KC_COMM, KC_EXLM},  // , -> !
-    {PNKY_DOT, KC_QUES}, // . -> ?
-    {KC_EQL, KC_EQL},    // Don't shift =
-    {KC_SLSH, KC_SLSH},  // Don't shift /
+    {KC_SCLN, KC_AT},   // ; -> @
+    {KC_COMM, KC_QUES}, // . -> ?
+    {KC_EQL, KC_EQL},   // Don't shift =
+    {KC_SLSH, KC_SLSH}, // Don't shift /
 };
 
 uint8_t NUM_CUSTOM_SHIFT_KEYS = sizeof(custom_shift_keys) / sizeof(custom_shift_key_t);
