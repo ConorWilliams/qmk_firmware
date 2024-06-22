@@ -34,7 +34,3 @@ SRC += features/achordion.c
 # Custom Shift Keys
 OPT_DEFS += -DCUSTOM_SHIFT_KEYS_ENABLE
 SRC += features/custom_shift_keys.c
-
-# Layer Lock
-OPT_DEFS += -DLAYER_LOCK_ENABLE
-SRC += features/layer_lock.c

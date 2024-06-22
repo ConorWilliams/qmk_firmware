@@ -2,7 +2,6 @@
 
 #include "features/achordion.h"
 #include "features/custom_shift_keys.h"
-#include "features/layer_lock.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Aliases and definitions
@@ -16,8 +15,7 @@ enum layers {
 };
 
 enum custom_keycodes {
-    LY_LOCK = SAFE_RANGE, // Layer lock
-    SELLINE,              // Select the current line
+    SELLINE = SAFE_RANGE, // Select the current line
     STD_CLN,              // std::
     USRNAME,              // cw648
     UP_DIR,               // ../
@@ -51,10 +49,8 @@ enum custom_keycodes {
 #define PNKY_DOT LGUI_T(KC_DOT)
 
 // Thumb keys (left/right and inner/outer)
-#define THMB_LO KC_TAB
 #define THMB_LI LT(NAV, KC_SPC)
 #define THMB_RI QK_AREP
-#define THMB_RO MO(NUM)
 
 ///////////////////////////////////////////////////////////////////////////////
 // My Keymap
@@ -69,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         HOME_C, HOME_R,  HOME_S,  HOME_T,    KC_G,        KC_M,  HOME_N,  HOME_E,  HOME_I,   HOME_A,
         PNKY_W,   KC_J,    KC_V,    KC_D,    KC_K,        KC_X,    KC_H, KC_SCLN, KC_COMM, PNKY_DOT,
 
-                                 THMB_LO, THMB_LI,        THMB_RI, THMB_RO
+                                 TG(NAV), THMB_LI,        THMB_RI, MO(NUM)
     ),
 
     [SYM] = LAYOUT_split_3x5_2( 
@@ -87,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         C(KC_A), KC_LALT, KC_LSFT, KC_LCTL, C(KC_SLSH),       KC_PGUP, KC_LEFT,   KC_UP, KC_RGHT,  KC_DEL,
         KC_LGUI, C(KC_X), C(KC_C), C(KC_V),    C(KC_F),       KC_PGDN, KC_HOME, KC_DOWN,  KC_END, XXXXXXX,
         
-                                     _______,  _______,       LY_LOCK, _______ 
+                                     _______,  _______,       _______, TO(BASE) 
     ),
 
     [NUM] = LAYOUT_split_3x5_2(
@@ -95,7 +91,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            KC_0,  KC_1,    KC_2,    KC_3,     KC_DOT,       KC_VOLU,    KC_RCTL, KC_RSFT,   KC_LALT, XXXXXXX,
         XXXXXXX,  KC_7,    KC_8,    KC_9,    XXXXXXX,       KC_VOLD,    XXXXXXX, XXXXXXX,   XXXXXXX, KC_LGUI,
         
-                                   _______,  LY_LOCK,       _______, _______ 
+                                   XXXXXXX,  _______,       _______, _______ 
     ),
 };
 
@@ -131,16 +127,19 @@ uint8_t NUM_CUSTOM_SHIFT_KEYS = sizeof(custom_shift_keys) / sizeof(custom_shift_
  *  q j v d k   x h ; , .
  */
 
-uint16_t const caps_combo[] PROGMEM = {KC_V, KC_SCLN, COMBO_END};    // Middle fingers
-uint16_t const bck_combo[] PROGMEM  = {KC_H, KC_SCLN, COMBO_END};    // RHS index + middle
-uint16_t const esc_combo[] PROGMEM  = {KC_SCLN, KC_COMM, COMBO_END}; // RHS middle + ring
-uint16_t const ent_combo[] PROGMEM  = {KC_V, KC_D, COMBO_END};       // LHS index + middle
+uint16_t const caps_combo[] PROGMEM = {KC_V, KC_SCLN, COMBO_END}; // Middle fingers
+
+uint16_t const bck_combo[] PROGMEM = {KC_H, KC_SCLN, COMBO_END};    // RHS index + middle
+uint16_t const esc_combo[] PROGMEM = {KC_SCLN, KC_COMM, COMBO_END}; // RHS middle + ring
+uint16_t const ent_combo[] PROGMEM = {KC_V, KC_D, COMBO_END};       // LHS index + middle
+uint16_t const tab_combo[] PROGMEM = {KC_J, KC_V, COMBO_END};       // LHS ring + middle
 
 combo_t key_combos[] = {
     COMBO(caps_combo, CW_TOGG), //
     COMBO(esc_combo, KC_ESC),   //
     COMBO(ent_combo, KC_ENT),   //
     COMBO(bck_combo, KC_BSPC),  //
+    COMBO(tab_combo, KC_TAB),   //
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -206,9 +205,7 @@ bool achordion_eager_mod(uint8_t mod) {
 uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
     // Disable achordion for the thumb keys.
     switch (tap_hold_keycode) {
-        case THMB_LO:
         case THMB_LI:
-        case THMB_RO:
         case THMB_RI:
             return 0;
         default:
@@ -288,9 +285,6 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     // Order is required
     if (!process_achordion(keycode, record)) {
-        return false;
-    }
-    if (!process_layer_lock(keycode, record, LY_LOCK)) {
         return false;
     }
     if (!process_custom_shift_keys(keycode, record)) {
