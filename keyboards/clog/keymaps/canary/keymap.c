@@ -268,6 +268,8 @@ uint16_t get_alt_repeat_key_keycode_user(uint16_t keycode, uint8_t mods) {
     // Process special cases, if no mods (other than shift) are active.
     if ((mods & ~MOD_MASK_SHIFT) == 0) {
         switch (keycode) {
+            case KC_COMM:
+                return M_TDIR; // , -> <BSPC>./
             case KC_HASH:
                 return M_INCLUDE; // # -> include
             case KC_DOT:
