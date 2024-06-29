@@ -17,10 +17,11 @@ enum layers {
 enum custom_keycodes {
     SELLINE = SAFE_RANGE, // Select the current line
     STD_CLN,              // std::
-    USRNAME,              // cw648
+    USRNAME,              // conor
     UP_DIR,               // ../
     // Custom repeat key
     M_UPDIR,   // . -> ../
+    M_TDIR,    // , -> ./
     M_INCLUDE, // # -> #include
     M_DOCSTR,  // " -> """<cursor>"""
     M_MKGRVS,  // ` -> ```<cursor>```
@@ -41,15 +42,15 @@ enum custom_keycodes {
 // Right hand home row
 #define HOME_N RCTL_T(KC_N)
 #define HOME_E RSFT_T(KC_E)
-#define HOME_I LALT_T(KC_I)
+#define HOME_I LALT_T(KC_I) // I3 only reads left alt
 #define HOME_A LT(SYM, KC_A)
 
 // Pinky's lower gui's
-#define PNKY_W LGUI_T(KC_W)
+#define PNKY_Q LGUI_T(KC_Q)
 #define PNKY_DOT LGUI_T(KC_DOT)
 
 // Thumb keys (left/right and inner/outer)
-#define THMB_LI LT(NAV, KC_SPC)
+#define THMB_LI KC_SPC
 #define THMB_RI QK_AREP
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -61,11 +62,11 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    
     [BASE] = LAYOUT_split_3x5_2(  
-        KC_Q,     KC_L,    KC_Y,    KC_P,    KC_B,        KC_Z,    KC_F,    KC_O,    KC_U,  KC_QUOT,
+        KC_W,     KC_L,    KC_Y,    KC_P,    KC_B,        KC_Z,    KC_F,    KC_O,    KC_U,  KC_QUOT,
         HOME_C, HOME_R,  HOME_S,  HOME_T,    KC_G,        KC_M,  HOME_N,  HOME_E,  HOME_I,   HOME_A,
-        PNKY_W,   KC_J,    KC_V,    KC_D,    KC_K,        KC_X,    KC_H, KC_SCLN, KC_COMM, PNKY_DOT,
+        PNKY_Q,   KC_J,    KC_V,    KC_D,    KC_K,        KC_X,    KC_H, KC_SCLN, KC_COMM, PNKY_DOT,
 
-                                 TG(NAV), THMB_LI,        THMB_RI, MO(NUM)
+                                 MO(NAV), THMB_LI,        THMB_RI, MO(NUM)
     ),
 
     [SYM] = LAYOUT_split_3x5_2( 
@@ -79,11 +80,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //  NAV layers doubles as mousing layer (i.e. left hand shortcuts)
     
     [NAV] = LAYOUT_split_3x5_2(
-        C(KC_Z), XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX,       XXXXXXX, XXXXXXX, SELLINE, XXXXXXX, XXXXXXX,
-        C(KC_A), KC_LALT, KC_LSFT, KC_LCTL, C(KC_SLSH),       KC_PGUP, KC_LEFT,   KC_UP, KC_RGHT,  KC_DEL,
-        KC_LGUI, C(KC_X), C(KC_C), C(KC_V),    C(KC_F),       KC_PGDN, KC_HOME, KC_DOWN,  KC_END, XXXXXXX,
+        C(KC_Z), XXXXXXX, C(S(KC_V)), XXXXXXX,    XXXXXXX,       XXXXXXX, XXXXXXX, SELLINE, XXXXXXX, XXXXXXX,
+        C(KC_C), KC_LALT,    KC_LSFT, KC_LCTL, C(KC_SLSH),       KC_PGUP, KC_LEFT,   KC_UP, KC_RGHT,  KC_DEL,
+        KC_LGUI, C(KC_X),    C(KC_V), C(KC_D),    XXXXXXX,       KC_PGDN, KC_HOME, KC_DOWN,  KC_END, XXXXXXX,
         
-                                     _______,  _______,       _______, TO(BASE) 
+                                        _______,  _______,       _______, _______ 
     ),
 
     [NUM] = LAYOUT_split_3x5_2(
@@ -147,12 +148,10 @@ combo_t key_combos[] = {
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t* record) {
     switch (keycode) {
-        // Ring and pinky fingers are slower.
-        case HOME_C:
+        // Ring and pinky fingers are slower, but symbols need to be fast.
         case HOME_R:
-        case PNKY_W:
+        case PNKY_Q:
         case HOME_I:
-        case HOME_A:
         case PNKY_DOT:
             return TAPPING_TERM + 15;
 
@@ -180,7 +179,6 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
 
 bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t* tap_hold_record, uint16_t other_keycode, keyrecord_t* other_record) {
     // Allow same-hand holds when the other key is on the thumb cluster.
-    // This allows for one-hand shift+tab
     uint8_t row = other_record->event.key.row;
     if (row == 3 || row == 7) {
         return true;
@@ -302,11 +300,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t* record) {
                 SEND_STRING_DELAY("../", TAP_CODE_DELAY);
                 return false;
             case USRNAME:
-                SEND_STRING_DELAY("cw648", TAP_CODE_DELAY);
+                SEND_STRING_DELAY("conor", TAP_CODE_DELAY);
                 return false;
 
                 // From the repeat key, break and return true.
-
+            case M_TDIR:
+                SEND_STRING_DELAY(/*,*/ SS_TAP(X_BSPC) "./", TAP_CODE_DELAY);
+                break;
             case M_UPDIR:
                 SEND_STRING_DELAY(/*.*/ "./", TAP_CODE_DELAY);
                 set_last_keycode(UP_DIR); // . * * -> ../../

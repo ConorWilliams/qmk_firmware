@@ -1,7 +1,7 @@
 #pragma once
 
-// Unfortunately, some applications drop or misorder fast key events. This is a
-// partial fix to slow down the rate at which macros are sent.
+// Unfortunately, some applications drop or miss-order fast key events. This
+// is a partial fix to slow down the rate at which macros are sent.
 #define TAP_CODE_DELAY 5
 
 // Tap-hold configuration for home row mods.
@@ -12,6 +12,8 @@
 
 // Combos from the base layer.
 #define COMBO_ONLY_FROM_LAYER 0
+// The default is 50
+#define COMBO_TERM 60
 
 // Enable the streak feature
 #define ACHORDION_STREAK
