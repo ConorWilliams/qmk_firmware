@@ -80,8 +80,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //  NAV layers doubles as mousing layer (i.e. left hand shortcuts)
     
     [NAV] = LAYOUT_split_3x5_2(
-        C(KC_Z), XXXXXXX, C(S(KC_V)), XXXXXXX,    XXXXXXX,       XXXXXXX, XXXXXXX, SELLINE, XXXXXXX, XXXXXXX,
-        C(KC_C), KC_LALT,    KC_LSFT, KC_LCTL, C(KC_SLSH),       KC_PGUP, KC_LEFT,   KC_UP, KC_RGHT,  KC_DEL,
+        C(KC_Z),  KC_DEL, C(S(KC_V)), XXXXXXX,    XXXXXXX,       XXXXXXX, XXXXXXX, SELLINE, XXXXXXX, XXXXXXX,
+        C(KC_C), KC_LALT,    KC_LSFT, KC_LCTL, C(KC_SLSH),       KC_PGUP, KC_LEFT,   KC_UP, KC_RGHT, XXXXXXX,
         KC_LGUI, C(KC_X),    C(KC_V), C(KC_D),    XXXXXXX,       KC_PGDN, KC_HOME, KC_DOWN,  KC_END, XXXXXXX,
         
                                         _______,  _______,       _______, _______ 
