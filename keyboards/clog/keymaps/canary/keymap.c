@@ -216,6 +216,15 @@ uint16_t achordion_streak_chord_timeout(uint16_t tap_hold_keycode, uint16_t next
         return 0;
     }
 
+    // Exceptions so that certain hotkeys don't get blocked as streaks.
+    switch (tap_hold_keycode) {
+        case HOME_N:
+            if (next_keycode == KC_C || next_keycode == KC_V) {
+                return 0;
+            }
+            break;
+    }
+
     // Otherwise, tap_hold_keycode is a mod-tap key.
     const uint8_t mod = mod_config(QK_MOD_TAP_GET_MODS(tap_hold_keycode));
 
