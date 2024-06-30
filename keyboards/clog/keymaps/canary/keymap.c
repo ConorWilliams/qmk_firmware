@@ -250,10 +250,13 @@ bool remember_last_key_user(uint16_t keycode, keyrecord_t* record, uint8_t* reme
             break;
     }
 
-    // Forget Shift on letters when Shift or AltGr are the only mods.
+    // Forget Shift on most letters when Shift or AltGr are the only mods.
     // This is useful for things like Aaron, etc.
+    // Some letters are excluded, e.g. for "NN" and "ZZ" in Vim.
     switch (keycode) {
-        case KC_A ... KC_Z:
+        case KC_A ... KC_H:
+        case KC_K ... KC_M:
+        case KC_O ... KC_U:
             if ((*remembered_mods & ~(MOD_MASK_SHIFT | MOD_BIT(KC_RALT))) == 0) {
                 *remembered_mods &= ~MOD_MASK_SHIFT;
             }
