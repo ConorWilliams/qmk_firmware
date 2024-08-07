@@ -5,25 +5,17 @@
     },
     "features": {
         "bootmagic": true,
-        "mousekey": true,
-        "extrakey": true,
-        "rgb_matrix": true
-    },
-    "ws2812": {
-        "pin": "D3"
-    },
-    "rgb_matrix": {
-        "driver": "ws2812"
+        "extrakey": true
     },
     "matrix_pins": {
-        "cols": ["F5", "B6", "D7", "E6", "B4"],
-        "rows": ["F7", "C6", "D4", "B5"]
+        "cols": ["B4", "E6", "D7", "B6", "F5"],
+        "rows": ["F7",  "D4", "C6","B5"]
     },
-    "diode_direction": "ROW2COL",
+    "diode_direction": "COL2ROW",
     "split": {
         "enabled": true,
         "soft_serial_pin": "D2"
     },
     "processor": "atmega32u4",
-    "bootloader": "atmel-dfu"
+    "bootloader": "caterina"
 }
